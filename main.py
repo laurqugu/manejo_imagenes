@@ -1,8 +1,7 @@
 "Manejo de imagenes"
 import cv2
 
-
-class procesamientoImagenes(object):
+class ProcesamientoImagenes(object):
     "Implementar casos"
 
     @classmethod
@@ -45,4 +44,3 @@ class procesamientoImagenes(object):
             cv2.waitKey(0)
 
         print(orientation, cropped_image.shape[0:2])
-
