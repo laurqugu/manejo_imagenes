@@ -2,6 +2,7 @@ import os
 import cv2
 import glob
 import sys
+from os.path import isfile, join
 from flask import Flask, flash, request, redirect, render_template, json
 from werkzeug.utils import secure_filename
 
@@ -43,14 +44,13 @@ def upload_file():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-)
 
         flash('Archivo(s) cargados correctamente')
-        return redirect(url_for('/process'))
+        return redirect('/process')
 
 @app.route('/process')
 def process_images():
-    images_files = "/uploads"
+    images_files = "uploads"
     
     content = os.listdir(images_files)
 
@@ -61,10 +61,10 @@ def process_images():
             images.append(file)
     
     for img in range(0, len(images)):
-        images[img] = cv2.imread( join(images_files,images[n]))
+        images[img] = cv2.imread(join(images_files,images[img]))
         print(img, file=sys.stderr)
     
-    return "images"
+    return images
 
 
 if __name__ == "__main__":
