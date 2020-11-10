@@ -1,5 +1,6 @@
 "Manejo de imagenes"
 import cv2
+import imutils
 
 class ProcesamientoImagenes(object):
     "Implementar casos"
@@ -19,8 +20,8 @@ class ProcesamientoImagenes(object):
 
         info = [
            { 
-               'Ancho Original': height,
-               'Alto Original': width
+               'Ancho Original': width,
+               'Alto Original': height
             }
         ]
 
@@ -29,25 +30,31 @@ class ProcesamientoImagenes(object):
         end_row = int(height*.85)
         end_col = int(width*.85)
 
-        if height > 796 and width >= 1123:
-            new_image = img[start_row:end_row, start_col:end_col]
+        if height > width:
+            orientacion = "Vertical"
 
-            if height < width:
-                orientacion = "Vertical"
+            if height > 1123 and width > 796:
+                new_image = img[start_row:end_row, start_col:end_col]
+            elif height > 1123:
+                print("Redimensionar")
+                new_image = imutils.resize(img, height=1123)
             else:
-                orientacion = "Horizontal"
+                new_image = img
+                
         else:
-            print("Redimensionar")
-            new_image = cv2.resize(img, (0, 0), fx=0.75, fy=0.75)
+            orientacion = "Horizontal"
 
-            if height < width:
-                orientacion = "Vertical"
+            if height > 796 and width > 1123:
+                new_image = img[start_row:end_row, start_col:end_col]
+            elif width > 1123:
+                print("Redimensionar")
+                new_image = imutils.resize(img, width=1123)
             else:
-                orientacion = "Horizontal"
+                new_image = img
         
         new_med = new_image.shape[0:2]
         
-        info.append({'nuevo Ancho': new_med[0], 'nuevo alto': new_med[1], 'orientacion': orientacion})
+        info.append({'nuevo Alto': new_med[0], 'nuevo Ancho': new_med[1], 'orientacion': orientacion})
 
 
         print(info)
